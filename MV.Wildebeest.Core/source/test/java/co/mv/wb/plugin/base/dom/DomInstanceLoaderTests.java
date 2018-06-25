@@ -16,15 +16,54 @@
 
 package co.mv.wb.plugin.base.dom;
 
-import org.junit.Ignore;
+import co.mv.wb.Instance;
+import co.mv.wb.InstanceBuilder;
+import co.mv.wb.LoaderFault;
+import co.mv.wb.PluginBuildException;
+import co.mv.wb.TestUtils;
+import co.mv.wb.plugin.postgresql.PostgreSqlDatabaseInstance;
+import co.mv.wb.plugin.postgresql.dom.PostgreSqlDatabaseDomInstanceBuilder;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DomInstanceLoaderTests
 {
-	@Ignore
+	/**
+	 * Use the DomInstanceLoader to load the fixture test/app/PostgreSqlDatabase/staging.wbinstance.xml which is a valid
+	 * {@link co.mv.wb.plugin.postgresql.PostgreSqlDatabaseInstance} and verify that configuration was loaded correctly.
+	 *
+	 * @since 4.0
+	 */
 	@Test
-	public void loadInstance()
+	public void loadInstance_validPostgreSqlInstance_succeeds() throws LoaderFault, PluginBuildException
 	{
-		throw new RuntimeException("not implemented");
+		// Setup
+		Map<String, InstanceBuilder> instanceBuilders = new HashMap<>();
+		instanceBuilders.put("co.mv.wb.PostgreSqlDatabase", new PostgreSqlDatabaseDomInstanceBuilder());
+
+		String instanceXml = TestUtils.readAllText("PostgreSqlDatabase/staging.wbinstance.xml");
+
+		DomInstanceLoader loader = new DomInstanceLoader(
+			instanceBuilders,
+			instanceXml);
+
+		// Execute
+		Instance instance = loader.load();
+
+		// Verify
+		// TODO: Verify that Instance is actually a PostgreSqlDatabaseInstance
+		// Assert.assertTrue(...);
+
+		PostgreSqlDatabaseInstance instanceT = (PostgreSqlDatabaseInstance)instance;
+
+		// TODO: Verify the properties of the PostgreSqlDatabaseInstance
+		Assert.assertEquals("instance.hostName", "127.0.0.1", instanceT.getHostName());
+
+		// TODO: port
+		// TODO: adminUsername
+		// TODO: etc
 	}
 }

@@ -16,6 +16,7 @@
 
 package co.mv.wb.impl;
 
+import co.mv.wb.TestUtils;
 import co.mv.wb.XmlValidationException;
 import co.mv.wb.framework.ArgumentNullException;
 import org.junit.Assert;
@@ -102,7 +103,7 @@ public class WildebeestApiImplValidateXmlUnitTests
 
 		try
 		{
-			WildebeestApiImpl.validateResourceXml(this.readAllText(filename));
+			WildebeestApiImpl.validateResourceXml(TestUtils.readAllText(filename));
 		}
 		catch (XmlValidationException e)
 		{
@@ -125,7 +126,7 @@ public class WildebeestApiImplValidateXmlUnitTests
 
 		try
 		{
-			WildebeestApiImpl.validateResourceXml(this.readAllText(filename));
+			WildebeestApiImpl.validateResourceXml(TestUtils.readAllText(filename));
 			Assert.fail("The XML file was expected to be invalid according to the resource schema, but it passed " +
 				"validation");
 		}
@@ -148,7 +149,7 @@ public class WildebeestApiImplValidateXmlUnitTests
 
 		try
 		{
-			WildebeestApiImpl.validateInstanceXml(this.readAllText(filename));
+			WildebeestApiImpl.validateInstanceXml(TestUtils.readAllText(filename));
 		}
 		catch (XmlValidationException e)
 		{
@@ -171,7 +172,7 @@ public class WildebeestApiImplValidateXmlUnitTests
 
 		try
 		{
-			WildebeestApiImpl.validateInstanceXml(this.readAllText(filename));
+			WildebeestApiImpl.validateInstanceXml(TestUtils.readAllText(filename));
 			Assert.fail("The XML file was expected to be invalid according to the instance schema, but it passed " +
 				"validation");
 		}
@@ -179,22 +180,5 @@ public class WildebeestApiImplValidateXmlUnitTests
 		{
 			// Expected.
 		}
-	}
-
-	private String readAllText(String filename)
-	{
-		if (filename == null) throw new ArgumentNullException("filename");
-
-		final String result;
-		try
-		{
-			result = new String(Files.readAllBytes(new File(filename).toPath()));
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e);
-		}
-
-		return result;
 	}
 }
